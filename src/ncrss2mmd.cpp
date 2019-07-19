@@ -35,7 +35,7 @@ All we need is the last piece of information published
  */
 void parse_xml(void)
 {
-char test[250000];
+char test[250];
 TiXmlElement *pelem;
 TiXmlDocument   doc("Test.xml");
 
