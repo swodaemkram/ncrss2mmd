@@ -17,34 +17,34 @@ using namespace std;
 int main()
 {
 
-		char test[250000];
-	    TiXmlDocument doc("Test.xml");
-		doc.LoadFile();
-
-// *******    We have opened the XML file and are ready to run through it   **********
-
-		      TiXmlElement *root, *pelem, *elem ;
-
-		       root = doc.FirstChildElement();
-
-		       //for(elem = root->FirstChildElement(); elem != NULL; elem = elem->NextSiblingElement())
+	char test[250000];
+	TiXmlElement *pelem;
 
 
-		       for (elem = root->FirstChildElement("channel"); elem != NULL; elem = elem->NextSiblingElement())
 
-		       {
+	TiXmlDocument   doc("Test.xml");
 
-		    	  	 // pelem = elem->FirstChildElement("title");
+	    if (doc.LoadFile())
+	    {
+	        TiXmlNode *elem = doc.FirstChildElement()->FirstChildElement()->FirstChildElement("item");
+	        pelem =elem->FirstChildElement("title");
+	        if (pelem) strcpy(test, (char*) pelem->GetText());
+	        printf(" %s\n",test);
 
-		    	   	   pelem =elem->FirstChildElement("title");
-		    	       if (pelem) strcpy(test, (char*) pelem->GetText());
-		    		   printf("The Data 1 = %s\n",test);
+	        pelem =elem->FirstChildElement("pubDate");
+	        if (pelem) strcpy(test, (char*) pelem->GetText());
+	        printf(" %s\n",test);
 
-		    		   pelem = elem->FirstChildElement();
-		    		   if (pelem) strcpy(test, (char*) pelem->GetText());
-		    		   printf("The Data 2 = %s\n",test);
 
-		       }
+
+	    }
+
+
+
+
+
+
+
 
 
 
