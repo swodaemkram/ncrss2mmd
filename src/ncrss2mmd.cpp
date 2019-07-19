@@ -42,14 +42,14 @@ void parse_xml(void)
 
 		    if (doc.LoadFile())
 		    {
-		        TiXmlNode *elem = doc.FirstChildElement()->FirstChildElement()->FirstChildElement("item");
-		        pelem =elem->FirstChildElement("title");
-		        if (pelem) strcpy(test, (char*) pelem->GetText());
-		        printf(" %s\n",test);
+		        TiXmlNode *elem = doc.FirstChildElement()->FirstChildElement()->FirstChildElement("item");//|
+		        pelem =elem->FirstChildElement("title");												  //|This gets the First Element
+		        if (pelem) strcpy(test, (char*) pelem->GetText());										  //|From the RSS Feed under <title>
+		        printf(" %s\n",test);																	  //|the event that happened
 
-		        pelem =elem->FirstChildElement("pubDate");
-		        if (pelem) strcpy(test, (char*) pelem->GetText());
-		        printf(" %s\n",test);
+		        pelem =elem->FirstChildElement("pubDate");                                                //|
+		        if (pelem) strcpy(test, (char*) pelem->GetText());                                        //|This gets the next Element
+		        printf(" %s\n",test);                                                                     //|  The published date and time
 
 		    }
 
