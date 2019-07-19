@@ -17,7 +17,7 @@ void parse_xml(void); //Function to parse RSS feed from NextCloud
 int main()
 {
 
-parse_xml(); //Parse XML from NextCloud
+parse_xml(); //Parse RSS Feed XML from NextCloud
 
 
 }
@@ -25,7 +25,7 @@ parse_xml(); //Parse XML from NextCloud
 
 /*
 ========================================================================================
-Function To Parse XML From NextCloud
+Function To Parse RSS feed XML From NextCloud
 All we need is the last piece of information published
 ========================================================================================
  */
