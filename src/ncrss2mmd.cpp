@@ -1,7 +1,7 @@
 //============================================================================
 // Name        : ncrss2mmd.cpp
 // Author      : Mark Meadows
-// Version     : 0.0.1
+// Version     : 0.0.1.1
 // Copyright   : Copyright (c) 2019 Mark Meadows
 // Description :nc2ss2md in C++, Ansi-style
 //============================================================================
