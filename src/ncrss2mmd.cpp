@@ -21,9 +21,9 @@ int main()
 {
 
 read_config();
-get_nextcloud_rssfeed();
+get_nextcloud_rssfeed();    //Download the Rss Feed from NextCloud and hand it off to the parser
 parse_xml();                //Parse RSS Feed XML from NextCloud (completed)
-send_data_to_mattermost();
+send_data_to_mattermost();  //Send the gleaned data to MatterMost Server Via Web Hook
 
 }
 
