@@ -1,7 +1,7 @@
 //============================================================================
 // Name        : ncrss2mmd.cpp
 // Author      : Mark Meadows
-// Version     :
+// Version     : ver 0.0.1
 // Copyright   : Copyright (c) 2019 Mark MEadows
 // Description : Hello World in C++, Ansi-style
 //============================================================================
