@@ -84,7 +84,6 @@ void get_nextcloud_rssfeed(void)
 
 	   curl_global_init(CURL_GLOBAL_DEFAULT);
 	   curl = curl_easy_init();
-	   //curl_easy_setopt(curl, CURLOPT_URL, "https://safe.kyin.net:10443/index.php/apps/activity/rss.php?token=vnGikFj3Zf4ieN0sZpz7p4u76mKcrp");
 	   curl_easy_setopt(curl, CURLOPT_URL,RssURL);
 	   curl_easy_setopt(curl, CURLOPT_SSL_VERIFYPEER, 0L);
 	   curl_easy_setopt(curl, CURLOPT_SSL_VERIFYHOST, 0L);
