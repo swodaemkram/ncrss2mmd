@@ -10,3 +10,9 @@ my Mattermost Server. That will show me who downloaded what
 when in a mattermost channel.
 
 This Daemon will be writen in c++ .
+
+There will be a simple configuration file since there will
+only be two options needed a RSS feed URL and a Mattermost 
+Web-Hook URL so a simple text conf file in the /etc directory
+named ncrss2mmd.conf.
+
