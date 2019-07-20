@@ -59,7 +59,7 @@ void parse_xml(void)
 {
 char test[250];
 TiXmlElement *pelem;
-TiXmlDocument   doc("Test.xml");
+TiXmlDocument   doc("temp.xml");
 
 	    if (doc.LoadFile())
 	    {
@@ -86,7 +86,7 @@ Get The RSS Feed From Next Cloud
 void get_nextcloud_rssfeed(void)
 {
 	   FILE *fp = NULL;
-	   fp = fopen("Test.xml","wb");
+	   fp = fopen("temp.xml","wb");
 
 	   CURL *curl;
 	   CURLcode res;
