@@ -15,7 +15,6 @@
 #include <unistd.h>
 #include <curl/curl.h>
 
-
 using namespace std;
 
 void parse_xml(void); //Function to parse RSS feed from NextCloud
@@ -29,7 +28,6 @@ char Filter[250] = {};       //A Place for the Filter Info
 char NewMessageFromRSSFeed[1024] = {};
 char OldMessageFromRSSFeed[1024] = {};
 char SendToWebHook[2048] = {};
-
 
 int main()
 {
