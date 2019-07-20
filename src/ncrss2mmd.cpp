@@ -9,6 +9,12 @@
 #include <iostream>
 #include <string>
 #include "tinyxml/tinyxml.h"
+#include <stdio.h>
+#include <stdlib.h>
+#include <signal.h>
+#include <unistd.h>
+#include <curl/curl.h>
+
 
 using namespace std;
 
@@ -29,9 +35,9 @@ int main()
 {
 
 read_config();
-printf("RssURL = %s\n",RssURL);         //Debug
-printf("WebHookURL = %s\n",WebHookURL); //Debug
-printf("Filter = %s\n",Filter);			//Debug
+//DEBUG printf("RssURL = %s\n",RssURL);         //Debug
+//DEBUG printf("WebHookURL = %s\n",WebHookURL); //Debug
+//DEBUG printf("Filter = %s\n",Filter);			//Debug
 
 get_nextcloud_rssfeed();    //Download the Rss Feed from NextCloud and hand it off to the parser
 parse_xml();                //Parse RSS Feed XML from NextCloud (completed)
@@ -55,12 +61,12 @@ TiXmlDocument   doc("Test.xml");
 	        TiXmlNode *elem = doc.FirstChildElement()->FirstChildElement()->FirstChildElement("item");//|
 	        pelem =elem->FirstChildElement("title");												  //|This gets the First Element
 	        if (pelem) strcpy(test, (char*) pelem->GetText());										  //|From the RSS Feed under <title>
-	        printf("======================================================================\n");
-	        printf("%s\n",test);																	  //|the event that happened
+	       // printf("======================================================================\n");
+	        //printf("%s\n",test);																	  //|the event that happened
 	        pelem =elem->FirstChildElement("pubDate");                                                //|
 	        if (pelem) strcpy(test, (char*) pelem->GetText());                                        //|This gets the next Element
-	        printf("%s\n",test);                                                                     //|  The published date and time
-	        printf("======================================================================\n");
+	        //printf("%s\n",test);                                                                     //|  The published date and time
+	        //printf("======================================================================\n");
 	    }
 
 return;
@@ -69,13 +75,37 @@ return;
 =============================================================================================
 End of XML Parsing Function
 =============================================================================================
- */
-
+Get The RSS Feed From Next Cloud
+=============================================================================================
+*/
 void get_nextcloud_rssfeed(void)
 {
-	return;
-}
 
+	   CURL *curl;
+	   CURLcode res;
+
+	   curl_global_init(CURL_GLOBAL_DEFAULT);
+	   curl = curl_easy_init();
+	   //curl_easy_setopt(curl, CURLOPT_URL, "https://safe.kyin.net:10443/index.php/apps/activity/rss.php?token=vnGikFj3Zf4ieN0sZpz7p4u76mKcrp");
+	   curl_easy_setopt(curl, CURLOPT_URL,RssURL);
+	   curl_easy_setopt(curl, CURLOPT_SSL_VERIFYPEER, 0L);
+	   curl_easy_setopt(curl, CURLOPT_SSL_VERIFYHOST, 0L);
+	   res = curl_easy_perform(curl);
+	   if(res != CURLE_OK)
+	   {
+		fprintf(stderr, "curl_easy_perform() failed: %s\n",
+	    curl_easy_strerror(res));
+        curl_easy_cleanup(curl);
+       }
+	   curl_global_cleanup();
+	   return;
+
+}
+/*
+===============================================================================================
+The End of Getting The RSS Data from NextCloud
+===============================================================================================
+*/
 
 void send_data_to_mattermost(void)
 {
