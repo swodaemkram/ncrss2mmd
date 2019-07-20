@@ -111,13 +111,11 @@ void send_data_to_mattermost(void)
 {
 	return;
 }
-
 /*
 ============================================================================================
 Lets read the Config File and Load it
 ============================================================================================
  */
-
 void read_config(void)
 {
 	//With only a few lines in the config file we will just make a conf "text" file
