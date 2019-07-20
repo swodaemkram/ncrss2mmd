@@ -19,9 +19,9 @@ filter. Since all activity is publised in the NextCloud RSS
 feed I should have a filter (example) "download" so I only 
 get these actions in the Mattermost feed or if its blank 
 we could see all activity.
------------------------------------------------------------
+--
 Configuration File is complete and RSS XML parsing is complete
------------------------------------------------------------
+--
 Up next Network connection to NextCloud RSS Feed
 
 
