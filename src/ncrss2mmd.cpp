@@ -36,7 +36,6 @@ parse_xml();                //Parse RSS Feed XML from NextCloud (completed)
 send_data_to_mattermost();  //Send the gleaned data to MatterMost Server Via Web Hook
 
 }
-
 /*
 ========================================================================================
 Function To Parse RSS feed XML From NextCloud
