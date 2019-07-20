@@ -24,7 +24,7 @@ void read_config(void);
 
 char RssURL[250] = {};       //A place to put the Rss Feeds URL
 char WebHookURL[250] = {};	 //A Place to put the WebHookURL
-char Filter[250] = {};       //A Place for the Filter Infosize_t write_data(void *ptr, size_t size, size_t nmemb, void *stream) {
+char Filter[250] = {};       //A Place for the Filter
 char NewMessageFromRSSFeed[1024] = {};
 char OldMessageFromRSSFeed[1024] = {};
 char SendToWebHook[2048] = {};
