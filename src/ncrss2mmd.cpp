@@ -20,16 +20,18 @@ void read_config(void);
 char RssURL[250] = {};       //A place to put the Rss Feeds URL
 char WebHookURL[250] = {};	 //A Place to put the WebHookURL
 char Filter[250] = {};       //A Place for the Filter Info
+char NewMessageFromRSSFeed[1024] = {};
+char OldMessageFromRSSFeed[1024] = {};
+char SendToWebHook[2048] = {};
+
 
 int main()
 {
 
 read_config();
-
 printf("RssURL = %s\n",RssURL);         //Debug
 printf("WebHookURL = %s\n",WebHookURL); //Debug
 printf("Filter = %s\n",Filter);			//Debug
-
 
 get_nextcloud_rssfeed();    //Download the Rss Feed from NextCloud and hand it off to the parser
 parse_xml();                //Parse RSS Feed XML from NextCloud (completed)
@@ -53,11 +55,12 @@ TiXmlDocument   doc("Test.xml");
 	        TiXmlNode *elem = doc.FirstChildElement()->FirstChildElement()->FirstChildElement("item");//|
 	        pelem =elem->FirstChildElement("title");												  //|This gets the First Element
 	        if (pelem) strcpy(test, (char*) pelem->GetText());										  //|From the RSS Feed under <title>
-	        printf(" %s\n",test);																	  //|the event that happened
+	        printf("======================================================================\n");
+	        printf("%s\n",test);																	  //|the event that happened
 	        pelem =elem->FirstChildElement("pubDate");                                                //|
 	        if (pelem) strcpy(test, (char*) pelem->GetText());                                        //|This gets the next Element
-	        printf(" %s\n",test);                                                                     //|  The published date and time
-
+	        printf("%s\n",test);                                                                     //|  The published date and time
+	        printf("======================================================================\n");
 	    }
 
 return;
