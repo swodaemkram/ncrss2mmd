@@ -14,5 +14,11 @@ This Daemon will be writen in c++ .
 There will be a simple configuration file since there will
 only be two options needed a RSS feed URL and a Mattermost 
 Web-Hook URL so a simple text conf file in the /etc directory
-named ncrss2mmd.conf.
+named ncrss2mmd.conf. I think I will add a 3rd option for a 
+filter. Since all activity is publised in the NextCloud RSS 
+feed I should have a filter (example) "download" so I only 
+get these actions in the Mattermost feed or if its blank 
+we could see all activity.
+
+
 
