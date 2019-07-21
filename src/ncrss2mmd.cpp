@@ -71,7 +71,7 @@ TiXmlDocument   doc("temp.xml");
 	        printf("%s\n",RSSTime);                                                                   //|  The published date and time
 	        printf("======================================================================\n");
 	    }
-
+	    remove("temp.xml");
 return;
 }
 /*
