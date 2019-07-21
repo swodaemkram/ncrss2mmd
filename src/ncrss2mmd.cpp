@@ -29,6 +29,11 @@ char NewMessageFromRSSFeed[1024] = {};
 char OldMessageFromRSSFeed[1024] = {};
 char SendToWebHook[2048] = {};
 
+struct curl_slist *headers = NULL;
+
+
+
+
 size_t write_data(void *ptr, size_t size, size_t nmemb, FILE *stream) {
     size_t written;
     written = fwrite(ptr, size, nmemb, stream);
@@ -117,13 +122,48 @@ void get_nextcloud_rssfeed(void)
 ===============================================================================================
 The End of Getting The RSS Data from NextCloud
 ===============================================================================================
+Lets Send Data To MatterMost
+===============================================================================================
 */
 
 void send_data_to_mattermost(void)
 {
+
+		   CURL *curl;
+		   CURLcode res;
+		   curl_global_init(CURL_GLOBAL_DEFAULT);
+		   curl = curl_easy_init();
+
+		   // Need to build the MatterMost URL to send the Data to the WebHook
+		   //Sample Curl Command to post to mattermost
+		   //curl -i -X POST -H 'Content-Type: applicati/json' -d '{"text": "This is a test of the Matermost web hook system "}' http://talk.kyin.net:8065/hooks/6c78zsda4fyrbbx9hsmocctzae
+
+		   curl_easy_setopt(curl, CURLOPT_URL,WebHookURL);
+		   curl_easy_setopt(curl, CURLOPT_SSL_VERIFYPEER, 0L); //Dont Check SSL Cert.
+		   curl_easy_setopt(curl, CURLOPT_SSL_VERIFYHOST, 0L); //Dont Check SSL Cert.
+		   curl_easy_setopt(curl, CURLOPT_POSTFIELDS, R"anydelim( {"text": "You removed public link for Documents "} )anydelim");
+		   headers = curl_slist_append(headers, "Expect:");    //Set Header Types For JSON
+		   headers = curl_slist_append(headers, "Content-Type: application/json"); //Set Header Type For JSON
+		   curl_easy_setopt(curl, CURLOPT_HTTPHEADER, headers);
+
+		   res = curl_easy_perform(curl);
+
+		   if(res != CURLE_OK)
+		   {
+			fprintf(stderr, "curl_easy_perform() failed: %s\n",
+		    curl_easy_strerror(res));
+	        curl_easy_cleanup(curl);
+	       }
+
+
+		   curl_global_cleanup();
+
+
 	return;
 }
 /*
+============================================================================================
+End of Sending Data To MatterMost
 ============================================================================================
 Lets read the Config File and Load it
 ============================================================================================
