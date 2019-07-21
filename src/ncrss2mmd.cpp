@@ -136,7 +136,7 @@ void send_data_to_mattermost(void)
 		   //curl -i -X POST -H 'Content-Type: applicati/json' -d '{"text": "This is a test of the Matermost web hook system "}' http://talk.kyin.net/hooks/6c78zsda4fy
 
 
-		   sprintf(SendToWebHook,"{\"text"\":"\"%s")
+		   sprintf(SendToWebHook,"the format %s %s",NewMessageFromRSSFeed,RSSTime);
 
 		   curl_easy_setopt(curl, CURLOPT_URL,WebHookURL);
 		   curl_easy_setopt(curl, CURLOPT_SSL_VERIFYPEER, 0L); //Dont Check SSL Cert.
