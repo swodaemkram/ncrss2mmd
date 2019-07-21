@@ -43,14 +43,13 @@ size_t write_data(void *ptr, size_t size, size_t nmemb, FILE *stream) {
 int main()
 {
 
-read_config();
+read_config();//(completed)
 //DEBUG printf("RssURL = %s\n",RssURL);         //Debug
-//DEBUG printf("WebHookURL = %s\n",WebHookURL); //Debugstring data((const char*) ptr, (size_t) size * nmemb);
+//DEBUG printf("WebHookURL = %s\n",WebHookURL); //Debug
 //DEBUG printf("Filter = %s\n",Filter);			//Debug
-
-get_nextcloud_rssfeed();    //Download the Rss Feed from NextCloud and hand it off to the parser
+get_nextcloud_rssfeed();    //Download the Rss Feed from NextCloud and hand it off to the parser(completed)
 parse_xml();                //Parse RSS Feed XML from NextCloud (completed)
-send_data_to_mattermost();  //Send the gleaned data to MatterMost Server Via Web Hook
+send_data_to_mattermost();  //Send the gleaned data to MatterMost Server Via Web Hook(in progress)
 
 }
 /*
