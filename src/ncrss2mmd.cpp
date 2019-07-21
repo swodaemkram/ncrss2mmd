@@ -11,6 +11,10 @@
 #include <stdio.h>
 #include <curl/curl.h>
 #include <unistd.h>
+#include <time.h>
+#include <sys/time.h>
+#include <iostream>
+#include <fstream>
 
 using namespace std;
 
@@ -18,6 +22,7 @@ void parse_xml(void); //Function to parse RSS feed from NextCloud
 void get_nextcloud_rssfeed(void);
 void send_data_to_mattermost(void);
 void read_config(void);
+void log_function(string log_message);
 
 char RssURL[250] = {};       //A place to put the Rss Feeds URL
 char WebHookURL[250] = {};	 //A Place to put the WebHookURL
@@ -40,11 +45,21 @@ int main()
 {
 read_config();//(completed)
 
+string logmessage = "ncrss2mmd has started";
+log_function(logmessage);
+logmessage ="";
+
 while(1)							//This is going to be a service so forever loop
 	{
 		get_nextcloud_rssfeed();    //Download the Rss Feed from NextCloud and hand it off to the parser(completed)
 		parse_xml();                //Parse RSS Feed XML from NextCloud (completed)
-		if (strcmp(NewMessageFromRSSFeed,OldMessageFromRSSFeed) != 0) send_data_to_mattermost();  //Send the gleaned data to MatterMost Server Via Web Hook(in progress)
+		if (strcmp(NewMessageFromRSSFeed,OldMessageFromRSSFeed) != 0)
+		{
+			log_function(NewMessageFromRSSFeed);
+			send_data_to_mattermost();  //Send the gleaned data to MatterMost Server Via Web Hook(in progress)
+		}
+
+
 		sleep(5);					//Speed of checking RSS Feed
 	}
 }
@@ -64,12 +79,12 @@ TiXmlDocument   doc("temp.xml");
 	        TiXmlNode *elem = doc.FirstChildElement()->FirstChildElement()->FirstChildElement("item");//|
 	        pelem =elem->FirstChildElement("title");												  //|This gets the First Element
 	        if (pelem) strcpy(NewMessageFromRSSFeed, (char*) pelem->GetText());						  //|From the RSS Feed under <title>
-	        printf("======================================================================\n");
-	        printf("%s\n",NewMessageFromRSSFeed);													  //|the event that happened
+	        //printf("======================================================================\n");
+	        //printf("%s\n",NewMessageFromRSSFeed);													  //|the event that happened
 	        pelem =elem->FirstChildElement("pubDate");                                                //|
 	        if (pelem) strcpy(RSSTime, (char*) pelem->GetText());                                     //|This gets the next Element
-	        printf("%s\n",RSSTime);                                                                   //|  The published date and time
-	        printf("======================================================================\n");
+	        //printf("%s\n",RSSTime);                                                                 //|  The published date and time
+	        //printf("======================================================================\n");
 	    }
 	    remove("temp.xml");
 return;
@@ -135,7 +150,7 @@ void send_data_to_mattermost(void)
 		   curl_easy_setopt(curl, CURLOPT_URL,WebHookURL);
 		   curl_easy_setopt(curl, CURLOPT_SSL_VERIFYPEER, 0L); //Dont Check SSL Cert.
 		   curl_easy_setopt(curl, CURLOPT_SSL_VERIFYHOST, 0L); //Dont Check SSL Cert.
-		   //curl_easy_setopt(curl, CURLOPT_POSTFIELDS, R"anydelim( {"text": "You removed public link for Documents "} )anydelim");
+		   //curl_easy_setopt(curl, CURLOPT_POSTFIELDS, R"anydelim( {"text": "You removed public link for DFocuments "} )anydelim");
 		   curl_easy_setopt(curl, CURLOPT_POSTFIELDS, SendToWebHook);
 		   headers = curl_slist_append(headers, "Expect:");    //Set Header Types For JSON
 		   headers = curl_slist_append(headers, "Content-Type: application/json"); //Set Header Type For JSON
@@ -173,6 +188,7 @@ void read_config(void)
 		 			exit(1);
 		 		}
 
+
 		 		fscanf(Config_File,"%s", RssURL);
 		 		fscanf(Config_File,"%s", WebHookURL);
 		 		fscanf(Config_File,"%s", Filter);
@@ -185,4 +201,34 @@ void read_config(void)
 ============================================================================================
 Config File Loaded
 ============================================================================================
+Log Function
+============================================================================================
 */
+
+void log_function(string log_message)
+{
+
+		struct timespec ts;
+	    timespec_get(&ts, TIME_UTC);
+	    char buff[100];
+	    strftime(buff, sizeof buff, "%D %T", gmtime(&ts.tv_sec));
+
+		 ofstream file;
+		 file.open ("/var/log/ncrss2mmd.log",std::ios_base::app);
+
+		char MyTime[27];
+		sprintf(MyTime," %s.%09ld " , buff,ts.tv_nsec); //Format and apply data
+
+		file<<MyTime;
+		file<<log_message;
+		file<<"\n";
+		file.close();
+
+		return;
+
+}
+/*
+================================================================================================
+End of the Log Function
+================================================================================================
+ */
