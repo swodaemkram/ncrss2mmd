@@ -28,6 +28,8 @@ Then I need to add a log rotate file, and a service file.
 Then package it all up in a .deb file and write Installation
 Instructions.
 
+So everything is in the testing stage right now. It is running on
+my server and we will see what issuse we find if any.
 
 
 
