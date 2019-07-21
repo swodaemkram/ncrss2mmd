@@ -20,9 +20,14 @@ feed I should have a filter (example) "download" so I only
 get these actions in the Mattermost feed or if its blank 
 we could see all activity.
 
-Configuration File is complete and RSS XML parsing is complete
+Everything is now working. I need to setup a log function 
+to aid in installation and trouble-shooting. I also need to 
+Implament a simple filter for the incomming data.
 
-Up next Network connection to NextCloud RSS Feed
+Then I need to add a log rotate file, and a service file.
+Then package it all up in a .deb file and write Installation
+Instructions.
+
 
 
 
