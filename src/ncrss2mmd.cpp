@@ -135,6 +135,7 @@ void send_data_to_mattermost(void)
 		   //Sample Curl Command to post to mattermost
 		   //curl -i -X POST -H 'Content-Type: applicati/json' -d '{"text": "This is a test of the Matermost web hook system "}' http://talk.kyin.net/hooks/6c78zsda4fy
 
+//TODO Finish the JSON formatting
 
 		   sprintf(SendToWebHook,"the format %s %s",NewMessageFromRSSFeed,RSSTime);
 
