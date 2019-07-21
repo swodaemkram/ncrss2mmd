@@ -6,13 +6,9 @@
 // Description :nc2ss2md in C++, Ansi-style
 //============================================================================
 
-#include <iostream>
 #include <string>
 #include "tinyxml/tinyxml.h"
 #include <stdio.h>
-#include <stdlib.h>
-#include <signal.h>
-#include <unistd.h>
 #include <curl/curl.h>
 
 using namespace std;
@@ -29,16 +25,15 @@ char RSSTime[250] = {};      //RSS Time information
 char NewMessageFromRSSFeed[1024] = {};
 char OldMessageFromRSSFeed[1024] = {};
 char SendToWebHook[2048] = {};
+char SentFromWhom[250] = {};
 
 struct curl_slist *headers = NULL;
-
 
 size_t write_data(void *ptr, size_t size, size_t nmemb, FILE *stream) {
     size_t written;
     written = fwrite(ptr, size, nmemb, stream);
     return written;
 }
-
 
 int main()
 {
@@ -134,14 +129,13 @@ void send_data_to_mattermost(void)
 		   //Sample Curl Command to post to mattermost
 		   //curl -i -X POST -H 'Content-Type: applicati/json' -d '{"text": "This is a test of the Matermost web hook system "}' http://talk.kyin.net/hooks/6c78zsda4fy
 
-           //TODO Finish the JSON formatting
-
-		   sprintf(SendToWebHook,"the format %s %s",NewMessageFromRSSFeed,RSSTime);
+           sprintf(SendToWebHook,"{\"text\": \"%s %s %s\"}",NewMessageFromRSSFeed,RSSTime,SentFromWhom);
 
 		   curl_easy_setopt(curl, CURLOPT_URL,WebHookURL);
 		   curl_easy_setopt(curl, CURLOPT_SSL_VERIFYPEER, 0L); //Dont Check SSL Cert.
 		   curl_easy_setopt(curl, CURLOPT_SSL_VERIFYHOST, 0L); //Dont Check SSL Cert.
-		   curl_easy_setopt(curl, CURLOPT_POSTFIELDS, R"anydelim( {"text": "You removed public link for Documents "} )anydelim");
+		   //curl_easy_setopt(curl, CURLOPT_POSTFIELDS, R"anydelim( {"text": "You removed public link for Documents "} )anydelim");
+		   curl_easy_setopt(curl, CURLOPT_POSTFIELDS, SendToWebHook);
 		   headers = curl_slist_append(headers, "Expect:");    //Set Header Types For JSON
 		   headers = curl_slist_append(headers, "Content-Type: application/json"); //Set Header Type For JSON
 		   curl_easy_setopt(curl, CURLOPT_HTTPHEADER, headers);
@@ -181,6 +175,7 @@ void read_config(void)
 		 		fscanf(Config_File,"%s", RssURL);
 		 		fscanf(Config_File,"%s", WebHookURL);
 		 		fscanf(Config_File,"%s", Filter);
+		 		fscanf(Config_File,"%s",SentFromWhom);
 		 		fclose(Config_File);
 
 	return;
