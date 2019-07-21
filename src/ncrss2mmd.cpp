@@ -67,12 +67,12 @@ TiXmlDocument   doc("temp.xml");
 	    {
 	        TiXmlNode *elem = doc.FirstChildElement()->FirstChildElement()->FirstChildElement("item");//|
 	        pelem =elem->FirstChildElement("title");												  //|This gets the First Element
-	        if (pelem) strcpy(NewMessageFromRSSFeed, (char*) pelem->GetText());										  //|From the RSS Feed under <title>
+	        if (pelem) strcpy(NewMessageFromRSSFeed, (char*) pelem->GetText());						  //|From the RSS Feed under <title>
 	        printf("======================================================================\n");
-	        printf("%s\n",NewMessageFromRSSFeed);																	  //|the event that happened
+	        printf("%s\n",NewMessageFromRSSFeed);													  //|the event that happened
 	        pelem =elem->FirstChildElement("pubDate");                                                //|
-	        if (pelem) strcpy(RSSTime, (char*) pelem->GetText());                                        //|This gets the next Element
-	        printf("%s\n",RSSTime);                                                                    //|  The published date and time
+	        if (pelem) strcpy(RSSTime, (char*) pelem->GetText());                                     //|This gets the next Element
+	        printf("%s\n",RSSTime);                                                                   //|  The published date and time
 	        printf("======================================================================\n");
 	    }
 
@@ -134,7 +134,7 @@ void send_data_to_mattermost(void)
 		   //Sample Curl Command to post to mattermost
 		   //curl -i -X POST -H 'Content-Type: applicati/json' -d '{"text": "This is a test of the Matermost web hook system "}' http://talk.kyin.net/hooks/6c78zsda4fy
 
-//TODO Finish the JSON formatting
+           //TODO Finish the JSON formatting
 
 		   sprintf(SendToWebHook,"the format %s %s",NewMessageFromRSSFeed,RSSTime);
 
