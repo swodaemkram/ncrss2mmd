@@ -32,8 +32,6 @@ char SendToWebHook[2048] = {};
 struct curl_slist *headers = NULL;
 
 
-
-
 size_t write_data(void *ptr, size_t size, size_t nmemb, FILE *stream) {
     size_t written;
     written = fwrite(ptr, size, nmemb, stream);
@@ -125,7 +123,6 @@ The End of Getting The RSS Data from NextCloud
 Lets Send Data To MatterMost
 ===============================================================================================
 */
-
 void send_data_to_mattermost(void)
 {
 
@@ -155,9 +152,7 @@ void send_data_to_mattermost(void)
 	        curl_easy_cleanup(curl);
 	       }
 
-
 		   curl_global_cleanup();
-
 
 	return;
 }
