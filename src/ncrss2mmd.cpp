@@ -25,6 +25,7 @@ void read_config(void);
 char RssURL[250] = {};       //A place to put the Rss Feeds URL
 char WebHookURL[250] = {};	 //A Place to put the WebHookURL
 char Filter[250] = {};       //A Place for the Filter
+char RSSTime[250] = {};      //RSS Time information
 char NewMessageFromRSSFeed[1024] = {};
 char OldMessageFromRSSFeed[1024] = {};
 char SendToWebHook[2048] = {};
@@ -60,7 +61,6 @@ All we need is the last piece of information published
  */
 void parse_xml(void)
 {
-char test[250];
 TiXmlElement *pelem;
 TiXmlDocument   doc("temp.xml");
 
@@ -68,12 +68,12 @@ TiXmlDocument   doc("temp.xml");
 	    {
 	        TiXmlNode *elem = doc.FirstChildElement()->FirstChildElement()->FirstChildElement("item");//|
 	        pelem =elem->FirstChildElement("title");												  //|This gets the First Element
-	        if (pelem) strcpy(test, (char*) pelem->GetText());										  //|From the RSS Feed under <title>
+	        if (pelem) strcpy(NewMessageFromRSSFeed, (char*) pelem->GetText());										  //|From the RSS Feed under <title>
 	        printf("======================================================================\n");
-	        printf("%s\n",test);																	  //|the event that happened
+	        printf("%s\n",NewMessageFromRSSFeed);																	  //|the event that happened
 	        pelem =elem->FirstChildElement("pubDate");                                                //|
-	        if (pelem) strcpy(test, (char*) pelem->GetText());                                        //|This gets the next Element
-	        printf("%s\n",test);                                                                    //|  The published date and time
+	        if (pelem) strcpy(RSSTime, (char*) pelem->GetText());                                        //|This gets the next Element
+	        printf("%s\n",RSSTime);                                                                    //|  The published date and time
 	        printf("======================================================================\n");
 	    }
 
@@ -133,7 +133,10 @@ void send_data_to_mattermost(void)
 
 		   // Need to build the MatterMost URL to send the Data to the WebHook
 		   //Sample Curl Command to post to mattermost
-		   //curl -i -X POST -H 'Content-Type: applicati/json' -d '{"text": "This is a test of the Matermost web hook system "}' http://talk.kyin.net:8065/hooks/6c78zsda4fyrbbx9hsmocctzae
+		   //curl -i -X POST -H 'Content-Type: applicati/json' -d '{"text": "This is a test of the Matermost web hook system "}' http://talk.kyin.net/hooks/6c78zsda4fy
+
+
+		   sprintf(SendToWebHook,"{\"text"\":"\"%s")
 
 		   curl_easy_setopt(curl, CURLOPT_URL,WebHookURL);
 		   curl_easy_setopt(curl, CURLOPT_SSL_VERIFYPEER, 0L); //Dont Check SSL Cert.
