@@ -10,6 +10,7 @@
 #include "tinyxml/tinyxml.h"
 #include <stdio.h>
 #include <curl/curl.h>
+#include <unistd.h>
 
 using namespace std;
 
@@ -37,15 +38,15 @@ size_t write_data(void *ptr, size_t size, size_t nmemb, FILE *stream) {
 
 int main()
 {
-
 read_config();//(completed)
-//DEBUG printf("RssURL = %s\n",RssURL);         //Debug
-//DEBUG printf("WebHookURL = %s\n",WebHookURL); //Debug
-//DEBUG printf("Filter = %s\n",Filter);			//Debug
-get_nextcloud_rssfeed();    //Download the Rss Feed from NextCloud and hand it off to the parser(completed)
-parse_xml();                //Parse RSS Feed XML from NextCloud (completed)
-send_data_to_mattermost();  //Send the gleaned data to MatterMost Server Via Web Hook(in progress)
 
+while(1)							//This is going to be a service so forever loop
+	{
+		get_nextcloud_rssfeed();    //Download the Rss Feed from NextCloud and hand it off to the parser(completed)
+		parse_xml();                //Parse RSS Feed XML from NextCloud (completed)
+		if (strcmp(NewMessageFromRSSFeed,OldMessageFromRSSFeed) != 0) send_data_to_mattermost();  //Send the gleaned data to MatterMost Server Via Web Hook(in progress)
+		sleep(5);					//Speed of checking RSS Feed
+	}
 }
 /*
 ========================================================================================
@@ -150,7 +151,7 @@ void send_data_to_mattermost(void)
 	       }
 
 		   curl_global_cleanup();
-
+		   strcpy(OldMessageFromRSSFeed,NewMessageFromRSSFeed);
 	return;
 }
 /*
