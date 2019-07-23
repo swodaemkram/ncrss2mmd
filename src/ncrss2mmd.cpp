@@ -13,6 +13,7 @@
 #include <unistd.h>
 #include <time.h>
 #include <sys/time.h>
+#include <stdlib.h>
 #include <iostream>
 #include <fstream>
 
@@ -57,12 +58,17 @@ while(1)							//This is going to be a service so forever loop
 		get_nextcloud_rssfeed();    //Download the Rss Feed from NextCloud and hand it off to the parser(completed)
 		parse_xml();                //Parse RSS Feed XML from NextCloud (completed)
 
-//TODO		//PUT THE FILTER HERE
-
 		if (strcmp(NewMessageFromRSSFeed,OldMessageFromRSSFeed) != 0)
 		{
-			log_function(NewMessageFromRSSFeed);
-			send_data_to_mattermost();  //Send the gleaned data to MatterMost Server Via Web Hook(in progress)
+			char * isinthere = {};
+			//printf("NewMessageFromRSSFeed = %s Filter = %s",NewMessageFromRSSFeed,Filter);
+			isinthere = strstr(NewMessageFromRSSFeed,Filter);
+			//printf("isinthere = %s\n",isinthere);
+			if (isinthere != NULL)
+			{
+				log_function(NewMessageFromRSSFeed);
+				send_data_to_mattermost();  //Send the gleaned data to MatterMost Server Via Web Hook(in progress)
+			}
 		}
 
 
@@ -204,6 +210,10 @@ void read_config(void)
 		 		fscanf(Config_File,"%s", WebHookURL);
 		 		fscanf(Config_File,"%s", Filter);
 		 		fscanf(Config_File,"%s",SentFromWhom);
+//TODO Read Config Line For Line
+
+
+//TODO Read Config Line for Line
 		 		fclose(Config_File);
 
 		 		log_function(Version);
