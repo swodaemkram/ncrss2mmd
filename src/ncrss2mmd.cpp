@@ -106,8 +106,8 @@ void get_nextcloud_rssfeed(void)
 	   curl_global_init(CURL_GLOBAL_DEFAULT);
 	   curl = curl_easy_init();
 	   curl_easy_setopt(curl, CURLOPT_URL,RssURL);
-	   curl_easy_setopt(curl, CURLOPT_SSL_VERIFYPEER, 0L);
-	   curl_easy_setopt(curl, CURLOPT_SSL_VERIFYHOST, 0L);
+	   curl_easy_setopt(curl, CURLOPT_SSL_VERIFYPEER, 0L);// Dont Check SSL Cert (Not Secure !)
+	   curl_easy_setopt(curl, CURLOPT_SSL_VERIFYHOST, 0L);// Dont CHeck SSL Cert (Not Secure !)
 	   curl_easy_setopt(curl, CURLOPT_WRITEFUNCTION,  write_data);
 	   curl_easy_setopt(curl, CURLOPT_WRITEDATA, fp);
 
@@ -200,6 +200,39 @@ void read_config(void)
 		 		fscanf(Config_File,"%s", Filter);
 		 		fscanf(Config_File,"%s",SentFromWhom);
 		 		fclose(Config_File);
+
+		 		logmessage = "";
+		 		std::string logmessage1 = "The Config File Say the RssURL = ";
+		 		std::string logmessage2 = RssURL;
+		 		std::string logmessage = logmessage1 + logmessage2;
+		 		log_function(logmessage);
+		 		logmessage1 = "";
+		 		logmessage2 = "";
+		 		logmessage = "";
+		 		logmessage1 = "The Config File Say the WebHookURL = ";
+		 		logmessage2 = WebHookURL;
+		 		logmessage = logmessage1 + logmessage2;
+		 		log_function(logmessage);
+		 		logmessage1 = "";
+		 		logmessage2 = "";
+		 		logmessage = "";
+		 		logmessage1 = "The Config File Say the Filter = ";
+		 		logmessage2 = Filter;
+		 		logmessage = logmessage1 + logmessage2;
+		 		log_function(logmessage);
+		 		logmessage1 = "";
+		 		logmessage2 = "";
+		 		logmessage = "";
+		 		logmessage1 = "The Config File Say the SentFromWhom = ";
+		 		logmessage2 = SentFromWhom;
+		 		logmessage = logmessage1 + logmessage2;
+		 		log_function(logmessage);
+		 		logmessage1 = "";
+		 		logmessage2 = "";
+		 		logmessage = "";
+		 		logmessage = "Config File Loaded ...";
+		 		log_function(logmessage);
+		 		logmessage = "";
 
 	return;
 }
