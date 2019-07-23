@@ -56,11 +56,15 @@ while(1)							//This is going to be a service so forever loop
 	{
 		get_nextcloud_rssfeed();    //Download the Rss Feed from NextCloud and hand it off to the parser(completed)
 		parse_xml();                //Parse RSS Feed XML from NextCloud (completed)
+
+//TODO		//PUT THE FILTER HERE
+
 		if (strcmp(NewMessageFromRSSFeed,OldMessageFromRSSFeed) != 0)
 		{
 			log_function(NewMessageFromRSSFeed);
 			send_data_to_mattermost();  //Send the gleaned data to MatterMost Server Via Web Hook(in progress)
 		}
+
 
 		sleep(5);					//Speed of checking RSS Feed set for every 5 seconds
 	}
