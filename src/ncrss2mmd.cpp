@@ -33,6 +33,8 @@ char OldMessageFromRSSFeed[1024] = {};
 char SendToWebHook[2048] = {};
 char SentFromWhom[250] = {};
 string logmessage = "";
+string Version = "ncrss2mmd Ver. 0.88.0";
+string ByWho = "By Mark Meadows";
 
 struct curl_slist *headers = NULL;
 
@@ -194,13 +196,14 @@ void read_config(void)
 		 			exit(1);
 		 		}
 
-
 		 		fscanf(Config_File,"%s", RssURL);
 		 		fscanf(Config_File,"%s", WebHookURL);
 		 		fscanf(Config_File,"%s", Filter);
 		 		fscanf(Config_File,"%s",SentFromWhom);
 		 		fclose(Config_File);
 
+		 		log_function(Version);
+		 		log_function(ByWho);
 		 		logmessage = "";
 		 		std::string logmessage1 = "The Config File Say the RssURL = ";
 		 		std::string logmessage2 = RssURL;
