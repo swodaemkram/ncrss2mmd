@@ -32,6 +32,7 @@ char NewMessageFromRSSFeed[1024] = {};
 char OldMessageFromRSSFeed[1024] = {};
 char SendToWebHook[2048] = {};
 char SentFromWhom[250] = {};
+string logmessage = "";
 
 struct curl_slist *headers = NULL;
 
@@ -45,7 +46,7 @@ int main()
 {
 read_config();//(completed)
 
-string logmessage = "ncrss2mmd has started";
+logmessage = "ncrss2mmd has started";
 log_function(logmessage);
 logmessage ="";
 
@@ -59,8 +60,7 @@ while(1)							//This is going to be a service so forever loop
 			send_data_to_mattermost();  //Send the gleaned data to MatterMost Server Via Web Hook(in progress)
 		}
 
-
-		sleep(5);					//Speed of checking RSS Feed
+		sleep(5);					//Speed of checking RSS Feed set for every 5 seconds
 	}
 }
 /*
@@ -115,10 +115,12 @@ void get_nextcloud_rssfeed(void)
 
 	   if(res != CURLE_OK)
 	   {
-		fprintf(stderr, "curl_easy_perform() failed: %s\n",
-	    curl_easy_strerror(res));
-        curl_easy_cleanup(curl);
-       }
+		logmessage = "Unable to get rss feed ....";
+		log_function(logmessage);
+		fprintf(stderr, "curl_easy_perform() failed: %s\n", curl_easy_strerror(res));
+       	curl_easy_cleanup(curl);
+       	logmessage = "";
+	   }
 
 	   curl_global_cleanup();
 	   fclose(fp);
@@ -145,7 +147,7 @@ void send_data_to_mattermost(void)
 		   //Sample Curl Command to post to mattermost
 		   //curl -i -X POST -H 'Content-Type: applicati/json' -d '{"text": "This is a test of the Matermost web hook system "}' http://talk.kyin.net/hooks/6c78zsda4fy
 
-           sprintf(SendToWebHook,"{\"text\": \"%s %s %s\"}",NewMessageFromRSSFeed,RSSTime,SentFromWhom);
+           sprintf(SendToWebHook,"{\"text\": \"%s %s %s\"}",NewMessageFromRSSFeed,RSSTime,SentFromWhom); //We have to escape all the JSON crap!
 
 		   curl_easy_setopt(curl, CURLOPT_URL,WebHookURL);
 		   curl_easy_setopt(curl, CURLOPT_SSL_VERIFYPEER, 0L); //Dont Check SSL Cert.
@@ -160,6 +162,8 @@ void send_data_to_mattermost(void)
 
 		   if(res != CURLE_OK)
 		   {
+			logmessage = "Unable to Connect to Mattermost Server";
+			log_function(logmessage);
 			fprintf(stderr, "curl_easy_perform() failed: %s\n",
 		    curl_easy_strerror(res));
 	        curl_easy_cleanup(curl);
@@ -184,6 +188,8 @@ void read_config(void)
 
 		 		Config_File = fopen("/etc/ncrss2mmd.conf", "r");  	// Open config file
 		 		if (Config_File == NULL){
+		 			logmessage = "Could not open configuration file";
+		 			log_function(logmessage);
 		 			printf("Could not open Config File\n");
 		 			exit(1);
 		 		}
