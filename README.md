@@ -31,6 +31,10 @@ Instructions.
 So everything is in the testing stage right now. It is running on
 my server and we will see what issuse we find if any.
 
+The Service is up and running for testing for a week or so 
+to see what bugs pop-up or what features would be nice.
+
+
 
 
 
