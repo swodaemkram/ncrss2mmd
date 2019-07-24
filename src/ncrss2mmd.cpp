@@ -212,11 +212,14 @@ void read_config(void)
 		 		fscanf(Config_File,"%[^\n]\n",SentFromWhom); //This will Read to the end of each line until a carriage return
 
 		 		fclose(Config_File);
-
+		 		std::string logmessage1 = "=============================================================";
+		 		log_function(logmessage1);
 		 		log_function(Version);
 		 		log_function(ByWho);
+		 		log_function(logmessage1);
+		 		logmessage1 = "";
 		 		logmessage = "";
-		 		std::string logmessage1 = "The Config File Say the RssURL = ";
+		 		logmessage1 = "The Config File Say the RssURL = ";
 		 		std::string logmessage2 = RssURL;
 		 		std::string logmessage = logmessage1 + logmessage2;
 		 		log_function(logmessage);
