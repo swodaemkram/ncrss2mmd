@@ -17,9 +17,6 @@ ifneq ($(MAKECMDGOALS),clean)
 ifneq ($(strip $(CC_DEPS)),)
 -include $(CC_DEPS)
 endif
-ifneq ($(strip $(CLASS_DEPS)),)
--include $(CLASS_DEPS)
-endif
 ifneq ($(strip $(C++_DEPS)),)
 -include $(C++_DEPS)
 endif
@@ -54,7 +51,7 @@ ncrss2mmd: $(OBJS) $(USER_OBJS)
 
 # Other Targets
 clean:
-	-$(RM) $(CC_DEPS)$(CLASS_DEPS)$(C++_DEPS)$(EXECUTABLES)$(C_UPPER_DEPS)$(CXX_DEPS)$(OBJS)$(CPP_DEPS)$(C_DEPS) ncrss2mmd
+	-$(RM) $(CC_DEPS)$(C++_DEPS)$(EXECUTABLES)$(C_UPPER_DEPS)$(CXX_DEPS)$(OBJS)$(CPP_DEPS)$(C_DEPS) ncrss2mmd
 	-@echo ' '
 
 .PHONY: all clean dependents

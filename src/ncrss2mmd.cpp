@@ -1,7 +1,7 @@
 //============================================================================
 // Name        : ncrss2mmd.cpp
 // Author      : Mark Meadows
-// Version     : 0.0.1.1
+// Version     : 0.98.0.1
 // Copyright   : Copyright (c) 2019 Mark Meadows
 // Description :nc2ss2md in C++, Ansi-style
 //============================================================================
@@ -34,7 +34,7 @@ char OldMessageFromRSSFeed[1024] = {};
 char SendToWebHook[2048] = {};
 char SentFromWhom[250] = {};
 string logmessage = "";
-string Version = "ncrss2mmd Ver. 0.88.0";
+string Version = "ncrss2mmd Ver. 0.98.0";
 string ByWho = "By Mark Meadows";
 
 struct curl_slist *headers = NULL;
@@ -206,14 +206,11 @@ void read_config(void)
 		 			exit(1);
 		 		}
 
-		 		fscanf(Config_File,"%s", RssURL);
-		 		fscanf(Config_File,"%s", WebHookURL);
-		 		fscanf(Config_File,"%s", Filter);
-		 		fscanf(Config_File,"%s",SentFromWhom);
-//TODO Read Config Line For Line
+		 		fscanf(Config_File,"%[^\n]\n", RssURL);      //This will Read to the end of each line until a carriage return
+		 		fscanf(Config_File,"%[^\n]\n", WebHookURL);	 //This will Read to the end of each line until a carriage return
+		 		fscanf(Config_File,"%[^\n]\n", Filter);		 //This will Read to the end of each line until a carriage return
+		 		fscanf(Config_File,"%[^\n]\n",SentFromWhom); //This will Read to the end of each line until a carriage return
 
-
-//TODO Read Config Line for Line
 		 		fclose(Config_File);
 
 		 		log_function(Version);
