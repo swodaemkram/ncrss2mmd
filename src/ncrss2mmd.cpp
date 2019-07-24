@@ -1,7 +1,7 @@
 //============================================================================
 // Name        : ncrss2mmd.cpp
 // Author      : Mark Meadows
-// Version     : 0.98.0.1
+// Version     : 0.99.0.6
 // Copyright   : Copyright (c) 2019 Mark Meadows
 // Description :nc2ss2md in C++, Ansi-style
 //============================================================================
@@ -34,7 +34,7 @@ char OldMessageFromRSSFeed[1024] = {};
 char SendToWebHook[2048] = {};
 char SentFromWhom[250] = {};
 string logmessage = "";
-string Version = "ncrss2mmd Ver. 0.98.0";
+string Version = "ncrss2mmd Ver. 0.99.0";
 string ByWho = "By Mark Meadows";
 
 struct curl_slist *headers = NULL;
@@ -62,12 +62,12 @@ while(1)							//This is going to be a service so forever loop
 		{
 			char * isinthere = {};
 			//printf("NewMessageFromRSSFeed = %s Filter = %s",NewMessageFromRSSFeed,Filter);
-			isinthere = strstr(NewMessageFromRSSFeed,Filter);
+			isinthere = strstr(NewMessageFromRSSFeed,Filter); //The filter is applied here
 			//printf("isinthere = %s\n",isinthere);
-			if (isinthere != NULL)
+			if (isinthere != NULL || strcmp(Filter,"none") == 0 || strcmp(Filter,"all") == 0) // and this allows for filter type none or all to send everything
 			{
 				log_function(NewMessageFromRSSFeed);
-				send_data_to_mattermost();  //Send the gleaned data to MatterMost Server Via Web Hook(in progress)
+				send_data_to_mattermost();  //Send the gleaned data to MatterMost Server Via Web Hook(completed)
 			}
 		}
 
