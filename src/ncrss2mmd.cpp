@@ -33,6 +33,7 @@ char NewMessageFromRSSFeed[1024] = {};
 char OldMessageFromRSSFeed[1024] = {};
 char SendToWebHook[2048] = {};
 char SentFromWhom[250] = {};
+int CheckEvery = 1;
 string logmessage = "";
 string Version = "ncrss2mmd Ver. 0.99.0";
 string ByWho = "By Mark Meadows";
@@ -71,8 +72,8 @@ while(1)							//This is going to be a service so forever loop
 			}
 		}
 
-
-		sleep(5);					//Speed of checking RSS Feed set for every 5 seconds
+		printf("Checking...\n");
+		sleep(CheckEvery);					//Speed of checking RSS Feed set for every 5 seconds
 	}
 }
 /*
@@ -211,6 +212,8 @@ FILE *Config_File = NULL;                        // declare config file Pointer
  		fscanf(Config_File,"%[^\n]\n", WebHookURL);	 //This will Read to the end of each line until a carriage return
  		fscanf(Config_File,"%[^\n]\n", Filter);		 //This will Read to the end of each line until a carriage return
  		fscanf(Config_File,"%[^\n]\n",SentFromWhom); //This will Read to the end of each line until a carriage return
+ 		//fscanf(Config_File,"%[^\n]\n",CheckEvery);   //This will Read to the end of each line until a carriage return
+ 		fscanf(Config_File,"%d\n",&CheckEvery);
 
  		fclose(Config_File);
  		std::string logmessage1 = "=============================================================";
@@ -220,29 +223,36 @@ FILE *Config_File = NULL;                        // declare config file Pointer
  		log_function(logmessage1);
  		logmessage1 = "";
  		logmessage = "";
- 		logmessage1 = "The Config File Say the RssURL = ";
+ 		logmessage1 = "The Config File Says the RssURL = ";
  		std::string logmessage2 = RssURL;
  		std::string logmessage = logmessage1 + logmessage2;
  		log_function(logmessage);
  		logmessage1 = "";
  		logmessage2 = "";
  		logmessage = "";
- 		logmessage1 = "The Config File Say the WebHookURL = ";
+ 		logmessage1 = "The Config File Says the WebHookURL = ";
  		logmessage2 = WebHookURL;
  		logmessage = logmessage1 + logmessage2;
  		log_function(logmessage);
  		logmessage1 = "";
  		logmessage2 = "";
  		logmessage = "";
- 		logmessage1 = "The Config File Say the Filter = ";
+ 		logmessage1 = "The Config File Says the Filter = ";
  		logmessage2 = Filter;
  		logmessage = logmessage1 + logmessage2;
  		log_function(logmessage);
  		logmessage1 = "";
  		logmessage2 = "";
  		logmessage = "";
- 		logmessage1 = "The Config File Say the SentFromWhom = ";
+ 		logmessage1 = "The Config File Says the SentFromWhom = ";
  		logmessage2 = SentFromWhom;
+ 		logmessage = logmessage1 + logmessage2;
+ 		log_function(logmessage);
+ 		logmessage1 = "";
+ 		logmessage2 = "";
+ 		logmessage = "";
+ 		logmessage1 = "The Config File Says We Should Check Every = ";
+ 		logmessage2 = to_string(CheckEvery);
  		logmessage = logmessage1 + logmessage2;
  		log_function(logmessage);
  		logmessage1 = "";
