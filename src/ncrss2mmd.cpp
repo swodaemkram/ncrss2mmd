@@ -1,7 +1,7 @@
 //============================================================================
 // Name        : ncrss2mmd.cpp
 // Author      : Mark Meadows
-// Version     : 0.99.0.6
+// Version     : 0.99.8.6
 // Copyright   : Copyright (c) 2019 Mark Meadows
 // Description :nc2ss2md in C++, Ansi-style
 //============================================================================
@@ -35,7 +35,7 @@ char SendToWebHook[2048] = {};
 char SentFromWhom[250] = {};
 int CheckEvery = 1;
 string logmessage = "";
-string Version = "ncrss2mmd Ver. 0.99.0";
+string Version = "ncrss2mmd Ver. 0.99.8";
 string ByWho = "By Mark Meadows";
 
 struct curl_slist *headers = NULL;
