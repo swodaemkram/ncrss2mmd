@@ -34,6 +34,11 @@ my server and we will see what issuse we find if any.
 The Service is up and running for testing for a week or so 
 to see what bugs pop-up or what features would be nice.
 
+07-25-2019:
+I decided to add another line to the Confguration file ncrss2mmd so the time between checking the rss feed could be change.
+This has been implamented.
+
+also after doing some playing around I have found that this daemon will work on any rss feed so by changing the rss address to a cnn news feed I get news updates on my MatterMost server.
 
 
 
