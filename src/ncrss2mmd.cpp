@@ -86,19 +86,19 @@ void parse_xml(void)
 TiXmlElement *pelem;
 TiXmlDocument   doc("temp.xml");
 
-	    if (doc.LoadFile())
-	    {
-	        TiXmlNode *elem = doc.FirstChildElement()->FirstChildElement()->FirstChildElement("item");//|
-	        pelem =elem->FirstChildElement("title");												  //|This gets the First Element
-	        if (pelem) strcpy(NewMessageFromRSSFeed, (char*) pelem->GetText());						  //|From the RSS Feed under <title>
-	        //printf("======================================================================\n");
-	        //printf("%s\n",NewMessageFromRSSFeed);													  //|the event that happened
-	        pelem =elem->FirstChildElement("pubDate");                                                //|
-	        if (pelem) strcpy(RSSTime, (char*) pelem->GetText());                                     //|This gets the next Element
-	        //printf("%s\n",RSSTime);                                                                 //|  The published date and time
-	        //printf("======================================================================\n");
-	    }
-	    remove("temp.xml");
+    if (doc.LoadFile())
+    {
+        TiXmlNode *elem = doc.FirstChildElement()->FirstChildElement()->FirstChildElement("item");//|
+        pelem =elem->FirstChildElement("title");												  //|This gets the First Element
+        if (pelem) strcpy(NewMessageFromRSSFeed, (char*) pelem->GetText());						  //|From the RSS Feed under <title>
+        //printf("======================================================================\n");
+        //printf("%s\n",NewMessageFromRSSFeed);													  //|the event that happened
+        pelem =elem->FirstChildElement("pubDate");                                                //|
+        if (pelem) strcpy(RSSTime, (char*) pelem->GetText());                                     //|This gets the next Element
+        //printf("%s\n",RSSTime);                                                                 //|  The published date and time
+        //printf("======================================================================\n");
+    }
+    remove("temp.xml");
 return;
 }
 /*
@@ -137,7 +137,7 @@ void get_nextcloud_rssfeed(void)
 	   curl_global_cleanup();
 	   fclose(fp);
 
-	   return;
+return;
 
 }
 /*
@@ -150,40 +150,40 @@ Lets Send Data To MatterMost
 void send_data_to_mattermost(void)
 {
 
-		   CURL *curl;
-		   CURLcode res;
-		   curl_global_init(CURL_GLOBAL_DEFAULT);
-		   curl = curl_easy_init();
+	   CURL *curl;
+	   CURLcode res;
+	   curl_global_init(CURL_GLOBAL_DEFAULT);
+	   curl = curl_easy_init();
 
-		   // Need to build the MatterMost URL to send the Data to the WebHook
-		   //Sample Curl Command to post to mattermost
-		   //curl -i -X POST -H 'Content-Type: applicati/json' -d '{"text": "This is a test of the Matermost web hook system "}' http://talk.kyin.net/hooks/6c78zsda4fy
+	   // Need to build the MatterMost URL to send the Data to the WebHook
+	   //Sample Curl Command to post to mattermost
+	   //curl -i -X POST -H 'Content-Type: applicati/json' -d '{"text": "This is a test of the Matermost web hook system "}' http://talk.kyin.net/hooks/6c78zsda4fy
 
-           sprintf(SendToWebHook,"{\"text\": \"%s %s %s\"}",NewMessageFromRSSFeed,RSSTime,SentFromWhom); //We have to escape all the JSON crap!
+          sprintf(SendToWebHook,"{\"text\": \"%s %s %s\"}",NewMessageFromRSSFeed,RSSTime,SentFromWhom); //We have to escape all the JSON crap!
 
-		   curl_easy_setopt(curl, CURLOPT_URL,WebHookURL);
-		   curl_easy_setopt(curl, CURLOPT_SSL_VERIFYPEER, 0L); //Dont Check SSL Cert.
-		   curl_easy_setopt(curl, CURLOPT_SSL_VERIFYHOST, 0L); //Dont Check SSL Cert.
-		   //curl_easy_setopt(curl, CURLOPT_POSTFIELDS, R"anydelim( {"text": "You removed public link for DFocuments "} )anydelim");
-		   curl_easy_setopt(curl, CURLOPT_POSTFIELDS, SendToWebHook);
-		   headers = curl_slist_append(headers, "Expect:");    //Set Header Types For JSON
-		   headers = curl_slist_append(headers, "Content-Type: application/json"); //Set Header Type For JSON
-		   curl_easy_setopt(curl, CURLOPT_HTTPHEADER, headers);
+	   curl_easy_setopt(curl, CURLOPT_URL,WebHookURL);
+	   curl_easy_setopt(curl, CURLOPT_SSL_VERIFYPEER, 0L); //Dont Check SSL Cert.
+	   curl_easy_setopt(curl, CURLOPT_SSL_VERIFYHOST, 0L); //Dont Check SSL Cert.
+	   //curl_easy_setopt(curl, CURLOPT_POSTFIELDS, R"anydelim( {"text": "You removed public link for DFocuments "} )anydelim");
+	   curl_easy_setopt(curl, CURLOPT_POSTFIELDS, SendToWebHook);
+	   headers = curl_slist_append(headers, "Expect:");    //Set Header Types For JSON
+	   headers = curl_slist_append(headers, "Content-Type: application/json"); //Set Header Type For JSON
+	   curl_easy_setopt(curl, CURLOPT_HTTPHEADER, headers);
 
-		   res = curl_easy_perform(curl);
+	   res = curl_easy_perform(curl);
 
-		   if(res != CURLE_OK)
-		   {
-			logmessage = "Unable to Connect to Mattermost Server";
-			log_function(logmessage);
-			fprintf(stderr, "curl_easy_perform() failed: %s\n",
-		    curl_easy_strerror(res));
-	        curl_easy_cleanup(curl);
-	       }
+	   if(res != CURLE_OK)
+	   {
+		logmessage = "Unable to Connect to Mattermost Server";
+		log_function(logmessage);
+		fprintf(stderr, "curl_easy_perform() failed: %s\n",
+	    curl_easy_strerror(res));
+        curl_easy_cleanup(curl);
+       }
 
-		   curl_global_cleanup();
-		   strcpy(OldMessageFromRSSFeed,NewMessageFromRSSFeed);
-	return;
+	   curl_global_cleanup();
+	   strcpy(OldMessageFromRSSFeed,NewMessageFromRSSFeed);
+return;
 }
 /*
 ============================================================================================
@@ -194,64 +194,65 @@ Lets read the Config File and Load it
  */
 void read_config(void)
 {
-	//With only a few lines in the config file we will just make a conf "text" file
-	//We will put it in the normal place /etc and we will call it ncrssmmd.conf
-	FILE *Config_File = NULL;                        // declare config file Pointer
+//With only a few lines in the config file we will just make a conf "text" file
+//We will put it in the normal place /etc and we will call it ncrssmmd.conf
+FILE *Config_File = NULL;                        // declare config file Pointer
 
-		 		Config_File = fopen("/etc/ncrss2mmd.conf", "r");  	// Open config file
-		 		if (Config_File == NULL){
-		 			logmessage = "Could not open configuration file";
-		 			log_function(logmessage);
-		 			printf("Could not open Config File\n");
-		 			exit(1);
-		 		}
+ 		Config_File = fopen("/etc/ncrss2mmd.conf", "r");  	// Open config file
+ 		if (Config_File == NULL)
+ 			{
+ 				logmessage = "Could not open configuration file";
+ 				log_function(logmessage);
+ 				printf("Could not open Config File\n");
+ 				exit(1);
+ 			}
 
-		 		fscanf(Config_File,"%[^\n]\n", RssURL);      //This will Read to the end of each line until a carriage return
-		 		fscanf(Config_File,"%[^\n]\n", WebHookURL);	 //This will Read to the end of each line until a carriage return
-		 		fscanf(Config_File,"%[^\n]\n", Filter);		 //This will Read to the end of each line until a carriage return
-		 		fscanf(Config_File,"%[^\n]\n",SentFromWhom); //This will Read to the end of each line until a carriage return
+	 	fscanf(Config_File,"%[^\n]\n", RssURL);      //This will Read to the end of each line until a carriage return
+ 		fscanf(Config_File,"%[^\n]\n", WebHookURL);	 //This will Read to the end of each line until a carriage return
+ 		fscanf(Config_File,"%[^\n]\n", Filter);		 //This will Read to the end of each line until a carriage return
+ 		fscanf(Config_File,"%[^\n]\n",SentFromWhom); //This will Read to the end of each line until a carriage return
 
-		 		fclose(Config_File);
-		 		std::string logmessage1 = "=============================================================";
-		 		log_function(logmessage1);
-		 		log_function(Version);
-		 		log_function(ByWho);
-		 		log_function(logmessage1);
-		 		logmessage1 = "";
-		 		logmessage = "";
-		 		logmessage1 = "The Config File Say the RssURL = ";
-		 		std::string logmessage2 = RssURL;
-		 		std::string logmessage = logmessage1 + logmessage2;
-		 		log_function(logmessage);
-		 		logmessage1 = "";
-		 		logmessage2 = "";
-		 		logmessage = "";
-		 		logmessage1 = "The Config File Say the WebHookURL = ";
-		 		logmessage2 = WebHookURL;
-		 		logmessage = logmessage1 + logmessage2;
-		 		log_function(logmessage);
-		 		logmessage1 = "";
-		 		logmessage2 = "";
-		 		logmessage = "";
-		 		logmessage1 = "The Config File Say the Filter = ";
-		 		logmessage2 = Filter;
-		 		logmessage = logmessage1 + logmessage2;
-		 		log_function(logmessage);
-		 		logmessage1 = "";
-		 		logmessage2 = "";
-		 		logmessage = "";
-		 		logmessage1 = "The Config File Say the SentFromWhom = ";
-		 		logmessage2 = SentFromWhom;
-		 		logmessage = logmessage1 + logmessage2;
-		 		log_function(logmessage);
-		 		logmessage1 = "";
-		 		logmessage2 = "";
-		 		logmessage = "";
-		 		logmessage = "Config File Loaded ...";
-		 		log_function(logmessage);
-		 		logmessage = "";
+ 		fclose(Config_File);
+ 		std::string logmessage1 = "=============================================================";
+ 		log_function(logmessage1);
+ 		log_function(Version);
+ 		log_function(ByWho);
+ 		log_function(logmessage1);
+ 		logmessage1 = "";
+ 		logmessage = "";
+ 		logmessage1 = "The Config File Say the RssURL = ";
+ 		std::string logmessage2 = RssURL;
+ 		std::string logmessage = logmessage1 + logmessage2;
+ 		log_function(logmessage);
+ 		logmessage1 = "";
+ 		logmessage2 = "";
+ 		logmessage = "";
+ 		logmessage1 = "The Config File Say the WebHookURL = ";
+ 		logmessage2 = WebHookURL;
+ 		logmessage = logmessage1 + logmessage2;
+ 		log_function(logmessage);
+ 		logmessage1 = "";
+ 		logmessage2 = "";
+ 		logmessage = "";
+ 		logmessage1 = "The Config File Say the Filter = ";
+ 		logmessage2 = Filter;
+ 		logmessage = logmessage1 + logmessage2;
+ 		log_function(logmessage);
+ 		logmessage1 = "";
+ 		logmessage2 = "";
+ 		logmessage = "";
+ 		logmessage1 = "The Config File Say the SentFromWhom = ";
+ 		logmessage2 = SentFromWhom;
+ 		logmessage = logmessage1 + logmessage2;
+ 		log_function(logmessage);
+ 		logmessage1 = "";
+ 		logmessage2 = "";
+ 		logmessage = "";
+ 		logmessage = "Config File Loaded ...";
+ 		log_function(logmessage);
+ 		logmessage = "";
 
-	return;
+return;
 }
 /*
 ============================================================================================
@@ -264,24 +265,22 @@ Log Function
 void log_function(string log_message)
 {
 
-		struct timespec ts;
-	    timespec_get(&ts, TIME_UTC);
-	    char buff[100];
-	    strftime(buff, sizeof buff, "%D %T", gmtime(&ts.tv_sec));
+	struct timespec ts;
+    timespec_get(&ts, TIME_UTC);
+    char buff[100];
+    strftime(buff, sizeof buff, "%D %T", gmtime(&ts.tv_sec));
 
-		 ofstream file;
-		 file.open ("/var/log/ncrss2mmd.log",std::ios_base::app);
+	 ofstream file;
+	 file.open ("/var/log/ncrss2mmd.log",std::ios_base::app);
 
-		char MyTime[27];
-		sprintf(MyTime," %s.%09ld " , buff,ts.tv_nsec); //Format and apply data
+	char MyTime[27];
+	sprintf(MyTime," %s.%09ld " , buff,ts.tv_nsec); //Format and apply data
+	file<<MyTime;
+	file<<log_message;
+	file<<"\n";
+	file.close();
 
-		file<<MyTime;
-		file<<log_message;
-		file<<"\n";
-		file.close();
-
-		return;
-
+return;
 }
 /*
 ================================================================================================
