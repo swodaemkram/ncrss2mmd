@@ -79,7 +79,7 @@ while(1)							//This is going to be a service so forever loop
 /*
 ========================================================================================
 Function To Parse RSS feed XML From NextCloud
-All we need is the last piece of information published
+All we need is the last piece of information published force a commit
 ========================================================================================
  */
 void parse_xml(void)
